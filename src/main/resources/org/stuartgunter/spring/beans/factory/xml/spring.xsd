@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns="http://www.stuartgunter.org/schema/spring"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            targetNamespace="http://www.stuartgunter.org/schema/spring"
+            elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans"
+                schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"/>
+
+    <xsd:element name="builder-factory">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[
+    This configuration is used to support bean creation through the builder pattern.
+			]]></xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="beans:identifiedType">
+                    <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="with" type="withType"/>
+                    </xsd:sequence>
+
+                    <xsd:attribute name="builder-class" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation source="java:java.lang.Class"><![CDATA[
+	                            The fully qualified name of the builder class.
+				            ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="method-prefix" type="xsd:string" default="with">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[
+                                The prefix of the builder methods used to set property values (defaults to "with").
+                            ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+
+                    <xsd:attribute name="build-method" type="xsd:string" default="build">
+                        <xsd:annotation>
+                            <xsd:documentation><![CDATA[
+                                The name of the method to construct the bean (defaults to "build").
+                            ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="withType">
+        <xsd:attribute name="name" use="required" type="xsd:string"/>
+        <xsd:attribute name="value" use="optional" type="xsd:string"/>
+        <xsd:attribute name="ref" use="optional" type="xsd:string"/>
+    </xsd:complexType>
+</xsd:schema>
