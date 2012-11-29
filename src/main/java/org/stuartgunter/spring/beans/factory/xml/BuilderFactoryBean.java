@@ -1,8 +1,6 @@
 package org.stuartgunter.spring.beans.factory.xml;
 
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.PropertyEditorRegistrySupport;
+import org.springframework.beans.*;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import java.lang.reflect.Method;
@@ -69,10 +67,11 @@ public class BuilderFactoryBean extends AbstractFactoryBean {
     @Override
     protected Object createInstance() throws Exception {
         Object builder = BeanUtils.instantiate(builderClass);
-        BeanWrapper beanWrapper = new FluentBeanWrapper(builder, methodPrefix);
+        FluentBeanWrapper fluentBeanWrapper = new FluentBeanWrapper(builder, methodPrefix);
+        fluentBeanWrapper.setBeanFactory(getBeanFactory());
 
         for (Map.Entry<String, Object> builderProperty : builderProperties.entrySet()) {
-            beanWrapper.setPropertyValue(builderProperty.getKey(), builderProperty.getValue());
+            fluentBeanWrapper.setPropertyValue(builderProperty.getKey(), builderProperty.getValue());
         }
 
         return BeanUtils.findMethod(builderClass, buildMethod).invoke(builder);

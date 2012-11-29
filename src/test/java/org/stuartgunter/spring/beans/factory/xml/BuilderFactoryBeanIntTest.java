@@ -15,7 +15,7 @@ public class BuilderFactoryBeanIntTest extends AbstractTestNGSpringContextTests 
         final Object bean = applicationContext.getBean("myBean");
 
         assertNotNull(bean);
-        assertEquals("Hello World!", bean);
+        assertEquals("HELLO WORLD!", bean);
     }
 
     public void shouldGetMySpecialBean() {
