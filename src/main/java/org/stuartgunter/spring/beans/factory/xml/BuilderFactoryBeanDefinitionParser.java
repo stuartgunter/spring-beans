@@ -11,7 +11,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

@@ -21,6 +21,10 @@ public class TestSpecialStringBuilder {
         return this;
     }
 
+    public TestSpecialStringBuilder usingBody(Object body) {
+        return usingBody(body.toString());
+    }
+
     public String construct() {
         return prefix + body + suffix;
     }

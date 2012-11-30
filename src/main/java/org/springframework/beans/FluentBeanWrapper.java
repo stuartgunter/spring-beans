@@ -1,6 +1,7 @@
 package org.springframework.beans;
 
-import com.google.common.collect.*;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import org.apache.commons.lang3.reflect.MethodUtils;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -16,9 +17,7 @@ import org.springframework.util.StringUtils;
 import java.beans.PropertyChangeEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>{@link PropertyAccessor} implementation that accesses 'fluent' methods on the target bean.
@@ -166,12 +165,12 @@ public class FluentBeanWrapper extends AbstractPropertyAccessor implements BeanF
             return null;
         } else if (methods.size() == 1) {
             return methods.get(0);
+        } else {
+            String methodName = (fluentStyle == FluentStyle.METHODS)
+                    ? propertyName
+                    : fluentMethodPrefix + StringUtils.capitalize(propertyName);
+            return MethodUtils.getMatchingAccessibleMethod(target.getClass(), methodName, new Class[] {type});
         }
-
-        String methodName = (fluentStyle == FluentStyle.METHODS)
-                ? propertyName
-                : fluentMethodPrefix + StringUtils.uncapitalize(propertyName);
-        return MethodUtils.getMatchingAccessibleMethod(target.getClass(), methodName, new Class[] {type});
     }
 
     @Override
