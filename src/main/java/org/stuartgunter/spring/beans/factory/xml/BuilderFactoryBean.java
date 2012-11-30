@@ -14,7 +14,8 @@ import java.util.Map;
  * <p>Expectations of this class are:
  * <ul>
  *     <li>Builder class must provide a default constructor</li>
- *     <li>Builder methods (e.g. {@code withXXX()}) must have an arity of 1 and return the builder instance</li>
+ *     <li>Builder methods must follow either the property-naming style (e.g. using a common prefix) or use fully-specified method names</li>
+ *     <li>All builder methods (e.g. {@code withXXX(..)} or {@code append(..)}) must have an arity of 1 and return the builder instance</li>
  *     <li>The build method (e.g. {@code build()}) must have an arity of 0</li>
  * </ul>
  * </p>

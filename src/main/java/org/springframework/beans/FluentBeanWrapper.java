@@ -21,11 +21,14 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * {@link PropertyAccessor} implementation that accesses 'fluent' methods on the target bean.
- * Allows for invocation of either via consistently named builder-style methods or uniquely named independent methods.
+ * <p>{@link PropertyAccessor} implementation that accesses 'fluent' methods on the target bean.
+ * Allows for invocation of either via consistently named builder-style methods or uniquely named independent methods.</p>
  *
  * <p>This implementation just supports methods in the actual target object.
- * It is not able to traverse nested fields.
+ * It is not able to traverse nested fields.</p>
+ *
+ * <p>This class has been created in the {@link org.springframework.beans} package because it requires classes that are
+ * package-protected within the Spring Framework.</p>
  */
 public class FluentBeanWrapper extends AbstractPropertyAccessor implements BeanFactoryAware {
 
