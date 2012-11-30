@@ -44,6 +44,14 @@
                             ]]></xsd:documentation>
                         </xsd:annotation>
                     </xsd:attribute>
+
+                    <xsd:attribute name="fluent-style" type="fluentStyle" default="PROPERTIES">
+                        <xsd:annotation>
+                            <xsd:documentation source="org.springframework.beans.FluentStyle"><![CDATA[
+                                The fluent style adopted by the bean (defaults to "PROPERTIES").
+                            ]]></xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:attribute>
                 </xsd:extension>
             </xsd:complexContent>
         </xsd:complexType>
@@ -53,5 +61,21 @@
         <xsd:attribute name="name" use="required" type="xsd:string"/>
         <xsd:attribute name="value" use="optional" type="xsd:string"/>
         <xsd:attribute name="ref" use="optional" type="xsd:string"/>
+
+        <xsd:attribute name="type" use="optional" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation source="java:java.lang.Class"><![CDATA[
+	The type of the parameter provided to this property. This is used as a type hint when overloaded
+	fluent methods conflict.
+				]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
     </xsd:complexType>
+
+    <xsd:simpleType name="fluentStyle">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="PROPERTIES"/>
+            <xsd:enumeration value="METHODS"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 </xsd:schema>

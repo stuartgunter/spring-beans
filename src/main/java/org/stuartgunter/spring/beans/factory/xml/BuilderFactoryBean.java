@@ -4,6 +4,7 @@ import org.springframework.beans.*;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +26,8 @@ public class BuilderFactoryBean extends AbstractFactoryBean {
     private Class<?> builderClass;
     private String buildMethod;
     private String methodPrefix;
-    private Map<String, Object> builderProperties;
+    private FluentStyle fluentStyle;
+    private Map<String, List<Object>> builderProperties;
 
     private PropertyEditorRegistrySupport propertyEditorRegistrySupport = new PropertyEditorRegistrySupport();
 
@@ -53,9 +55,16 @@ public class BuilderFactoryBean extends AbstractFactoryBean {
     }
 
     /**
+     * The fluent style of the bean. This determines how the appropriate methods on the target bean class are discovered.
+     */
+    public void setFluentStyle(FluentStyle fluentStyle) {
+        this.fluentStyle = fluentStyle;
+    }
+
+    /**
      * The properties to apply to the builder before finally constructing the bean.
      */
-    public void setBuilderProperties(Map<String, Object> builderProperties) {
+    public void setBuilderProperties(Map<String, List<Object>> builderProperties) {
         this.builderProperties = builderProperties;
     }
 
@@ -67,11 +76,14 @@ public class BuilderFactoryBean extends AbstractFactoryBean {
     @Override
     protected Object createInstance() throws Exception {
         Object builder = BeanUtils.instantiate(builderClass);
-        FluentBeanWrapper fluentBeanWrapper = new FluentBeanWrapper(builder, methodPrefix);
+        FluentBeanWrapper fluentBeanWrapper = new FluentBeanWrapper(builder, methodPrefix, fluentStyle);
         fluentBeanWrapper.setBeanFactory(getBeanFactory());
 
-        for (Map.Entry<String, Object> builderProperty : builderProperties.entrySet()) {
-            fluentBeanWrapper.setPropertyValue(builderProperty.getKey(), builderProperty.getValue());
+        for (Map.Entry<String, List<Object>> builderProperty : builderProperties.entrySet()) {
+            String propertyname = builderProperty.getKey();
+            for (Object propertyValue : builderProperty.getValue()) {
+                fluentBeanWrapper.setPropertyValue(propertyname, propertyValue);
+            }
         }
 
         return BeanUtils.findMethod(builderClass, buildMethod).invoke(builder);

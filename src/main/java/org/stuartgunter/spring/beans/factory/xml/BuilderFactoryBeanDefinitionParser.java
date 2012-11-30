@@ -1,5 +1,8 @@
 package org.stuartgunter.spring.beans.factory.xml;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import org.springframework.beans.FluentStyle;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
@@ -25,15 +28,21 @@ public class BuilderFactoryBeanDefinitionParser extends AbstractSimpleBeanDefini
     @Override
     protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
         configureAttributeForBuilder("target-class", "targetClass", element, builder);
+        configureAttributeForBuilder("fluent-style", "fluentStyle", FluentStyle.PROPERTIES, element, builder);
         configureAttributeForBuilder("builder-class", "builderClass", element, builder);
         configureAttributeForBuilder("method-prefix", "methodPrefix", "with", element, builder);
         configureAttributeForBuilder("build-method", "buildMethod", "build", element, builder);
 
-        Map<String, Object> builderProperties = new HashMap<String, Object>();
+        Map<String, List<Object>> builderProperties = Maps.newHashMap();
         List<Element> properties = DomUtils.getChildElementsByTagName(element, "with");
         for (Element property : properties) {
             String name = property.getAttribute("name");
-            builderProperties.put(name, createBuilderProperty(property));
+            List<Object> values = builderProperties.get(name);
+            if (values == null) {
+                values = Lists.newArrayList();
+                builderProperties.put(name, values);
+            }
+            values.add(createBuilderProperty(property));
         }
         builder.addPropertyValue("builderProperties", builderProperties);
     }
@@ -54,7 +63,7 @@ public class BuilderFactoryBeanDefinitionParser extends AbstractSimpleBeanDefini
         }
     }
 
-    private void configureAttributeForBuilder(String attributeName, String propertyName, String defaultValue,
+    private void configureAttributeForBuilder(String attributeName, String propertyName, Object defaultValue,
                                               Element element, BeanDefinitionBuilder builder) {
         String attributeValue = element.getAttribute(attributeName);
         Object value = StringUtils.hasText(attributeValue) ? attributeValue : defaultValue;

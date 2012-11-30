@@ -25,15 +25,14 @@
         <sg:with name="suffix" ref="exclamation"/>
     </sg:builder-factory>
 
-    <!--
-        <sg:builder-factory id="stringBuilderBean"
-                            builder-class="java.lang.StringBuilder"
-                            method-prefix="">
-            <sg:with name="append" value="${someKey}"/>
-            <sg:with name="append" value=" World"/>
-            <sg:with name="append" ref="exclamation"/>
-        </sg:builder-factory>
-    -->
+    <sg:builder-factory id="stringBuilderBean"
+                        builder-class="java.lang.StringBuilder"
+                        fluent-style="METHODS"
+                        build-method="toString">
+        <sg:with name="append" value="${someKey}"/>
+        <sg:with name="append" value=" World"/>
+        <sg:with name="append" ref="exclamation"/>
+    </sg:builder-factory>
 
     <bean id="exclamation" class="java.lang.String">
         <constructor-arg value="!"/>

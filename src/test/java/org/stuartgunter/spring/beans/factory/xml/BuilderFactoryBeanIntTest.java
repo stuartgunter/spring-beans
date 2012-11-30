@@ -25,12 +25,10 @@ public class BuilderFactoryBeanIntTest extends AbstractTestNGSpringContextTests 
         assertEquals("Hello World!", bean);
     }
 
-/*
     public void shouldGetStringBuilderBean() {
         final Object bean = applicationContext.getBean("stringBuilderBean");
 
         assertNotNull(bean);
         assertEquals("Hello World!", bean);
     }
-*/
 }
