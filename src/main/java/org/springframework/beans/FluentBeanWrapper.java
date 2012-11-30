@@ -103,21 +103,11 @@ public class FluentBeanWrapper extends AbstractPropertyAccessor implements BeanF
 
     @Override
     public Class<?> getPropertyType(String propertyName) throws BeansException {
-        // return the hinted type if available otherwise the most general type of all the overloads?
-
-//        Method method = this.properties.get(propertyName);
-//        if (method != null) {
-//            return method.getParameterTypes()[0];
-//        }
         return null;
     }
 
     @Override
     public TypeDescriptor getPropertyTypeDescriptor(String propertyName) throws BeansException {
-//        Method method = this.properties.get(propertyName);
-//        if (method != null) {
-//            return new TypeDescriptor(new MethodParameter(method, 0));
-//        }
         return null;
     }
 

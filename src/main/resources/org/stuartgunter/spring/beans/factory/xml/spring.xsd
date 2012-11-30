@@ -61,15 +61,6 @@
         <xsd:attribute name="name" use="required" type="xsd:string"/>
         <xsd:attribute name="value" use="optional" type="xsd:string"/>
         <xsd:attribute name="ref" use="optional" type="xsd:string"/>
-
-        <xsd:attribute name="type" use="optional" type="xsd:string">
-            <xsd:annotation>
-                <xsd:documentation source="java:java.lang.Class"><![CDATA[
-	The type of the parameter provided to this property. This is used as a type hint when overloaded
-	fluent methods conflict.
-				]]></xsd:documentation>
-            </xsd:annotation>
-        </xsd:attribute>
     </xsd:complexType>
 
     <xsd:simpleType name="fluentStyle">
