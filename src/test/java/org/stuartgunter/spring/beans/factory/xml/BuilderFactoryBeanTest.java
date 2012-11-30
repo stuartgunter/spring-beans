@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -20,6 +21,11 @@ public class BuilderFactoryBeanTest {
     @BeforeMethod
     public void beforeMethod() throws Exception {
         applicationContext = new GenericXmlApplicationContext();
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        applicationContext.close();
     }
 
     private void loadBeanDefinitions(String fileName) {
