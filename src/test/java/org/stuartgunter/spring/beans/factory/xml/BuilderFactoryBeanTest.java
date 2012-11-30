@@ -1,6 +1,5 @@
 package org.stuartgunter.spring.beans.factory.xml;
 
-import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
@@ -8,10 +7,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-import static org.testng.AssertJUnit.*;
-import static org.testng.internal.junit.ArrayAsserts.assertArrayEquals;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
 @Test
 public class BuilderFactoryBeanTest {
