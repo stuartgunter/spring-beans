@@ -21,7 +21,7 @@
                         <xsd:element name="with" type="withType"/>
                     </xsd:sequence>
 
-                    <xsd:attribute name="builder-class" type="xsd:string">
+                    <xsd:attribute name="builder-class" type="xsd:string" use="required">
                         <xsd:annotation>
                             <xsd:documentation source="java:java.lang.Class"><![CDATA[
 	                            The fully qualified name of the builder class.

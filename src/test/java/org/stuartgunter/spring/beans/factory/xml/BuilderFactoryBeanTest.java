@@ -1,5 +1,6 @@
 package org.stuartgunter.spring.beans.factory.xml;
 
+import org.springframework.beans.factory.parsing.BeanDefinitionParsingException;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
@@ -57,5 +58,12 @@ public class BuilderFactoryBeanTest {
 
         assertNotNull(bean);
         assertEquals("Hello World!", bean);
+    }
+
+    @Test(expectedExceptions = BeanDefinitionParsingException.class)
+    public void shouldNotCreateBeanWithInvalidConfiguration() {
+        loadBeanDefinitions("invalid-bean-factory.xml");
+
+        applicationContext.getBean("testBean");
     }
 }

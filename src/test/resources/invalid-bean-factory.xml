@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sg="http://www.stuartgunter.org/schema/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.stuartgunter.org/schema/spring http://www.stuartgunter.org/schema/spring/spring.xsd">
+
+    <import resource="classpath:base-context.xml"/>
+
+    <sg:builder-factory id="testBean"
+                        builder-class="org.stuartgunter.spring.beans.factory.xml.TestStringBuilder">
+        <sg:with name="body" value="test" ref="exclamation"/>
+    </sg:builder-factory>
+</beans>

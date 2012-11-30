@@ -5,6 +5,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                              http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
+    <!--
+        This base context just creates some common beans & properties to ensure that we're testing
+        property replacement and bean references appropriately.
+    -->
+
     <context:property-placeholder location="app.properties"/>
 
     <bean id="exclamation" class="java.lang.String">

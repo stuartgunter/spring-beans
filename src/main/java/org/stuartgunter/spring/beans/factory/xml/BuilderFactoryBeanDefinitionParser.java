@@ -4,6 +4,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.springframework.beans.FluentStyle;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
+import org.springframework.beans.factory.parsing.BeanDefinitionParsingException;
+import org.springframework.beans.factory.parsing.Location;
+import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -41,12 +44,17 @@ public class BuilderFactoryBeanDefinitionParser extends AbstractSimpleBeanDefini
                 values = Lists.newArrayList();
                 builderProperties.put(name, values);
             }
-            values.add(createBuilderProperty(property));
+            values.add(createBuilderProperty(property, parserContext));
         }
         builder.addPropertyValue("builderProperties", builderProperties);
     }
 
-    private Object createBuilderProperty(Element property) {
+    private Object createBuilderProperty(Element property, ParserContext parserContext) {
+        if (property.hasAttribute("value") && property.hasAttribute("ref")) {
+            parserContext.getReaderContext()
+                    .fatal("A 'with' element may either have a 'value' or 'ref' attribute, but not both", property);
+        }
+
         if (property.hasAttribute("value")) {
             return property.getAttribute("value");
         } else {
