@@ -1,6 +1,8 @@
 package org.stuartgunter.spring.beans.factory.xml;
 
-import org.springframework.beans.*;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.FluentBeanWrapper;
+import org.springframework.beans.FluentStyle;
 import org.springframework.beans.factory.config.AbstractFactoryBean;
 
 import java.lang.reflect.Method;
@@ -29,8 +31,6 @@ public class BuilderFactoryBean extends AbstractFactoryBean {
     private String methodPrefix;
     private FluentStyle fluentStyle;
     private Map<String, List<Object>> builderProperties;
-
-    private PropertyEditorRegistrySupport propertyEditorRegistrySupport = new PropertyEditorRegistrySupport();
 
     /**
      * The type of builder

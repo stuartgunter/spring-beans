@@ -18,7 +18,15 @@
             <xsd:complexContent>
                 <xsd:extension base="beans:identifiedType">
                     <xsd:sequence minOccurs="0" maxOccurs="unbounded">
-                        <xsd:element name="with" type="withType"/>
+                        <xsd:element name="with" type="withType">
+                            <xsd:annotation>
+                                <xsd:documentation><![CDATA[
+                                    Builder factory definitions can have zero or more 'with' elements that
+                                    correspond to fluent method-/property-style methods exposed
+                                    by the builder.
+				                ]]></xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
                     </xsd:sequence>
 
                     <xsd:attribute name="builder-class" type="xsd:string" use="required">
@@ -58,15 +66,55 @@
     </xsd:element>
 
     <xsd:complexType name="withType">
-        <xsd:attribute name="name" use="required" type="xsd:string"/>
-        <xsd:attribute name="value" use="optional" type="xsd:string"/>
-        <xsd:attribute name="ref" use="optional" type="xsd:string"/>
+        <xsd:attribute name="name" use="required" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[
+                    The name of the fluent method/property.
+                ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="value" use="optional" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[
+                    The value to pass into the method/property.
+                    Either a value or a ref may be specified, but not both.
+                ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="ref" use="optional" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[
+                    A reference to another bean to be used as the fluent method/property value.
+                    Either a value or a ref may be specified, but not both.
+                ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
     </xsd:complexType>
 
     <xsd:simpleType name="fluentStyle">
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="PROPERTIES"/>
-            <xsd:enumeration value="METHODS"/>
+            <xsd:enumeration value="PROPERTIES">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[
+                    Fluent properties are used in conjunction with the method prefix assigned to this
+                    builder. These typically follow a naming pattern of withXYZ(), where "with" is the common prefix that
+                    can be omitted from the property definition. This is analogous to Spring's property names and their
+                    association with JavaBean standards.
+                    ]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="METHODS">
+                <xsd:annotation>
+                    <xsd:documentation><![CDATA[
+                    Fluent methods are uniquely named methods that do not share a common prefix. This is also used for
+                    builders that do not set properties, but rather construct an object from progressive mutation. The
+                    resulting object is typically not composed of properties, but is often a single value in itself.
+
+                    And example of this is Java's StringBuilder, which relies on ordered invocations of append() to
+                    construct a single String value.
+                    ]]></xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
         </xsd:restriction>
     </xsd:simpleType>
 </xsd:schema>
