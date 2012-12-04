@@ -31,9 +31,10 @@ import java.util.List;
  */
 public class FluentBeanWrapper extends AbstractPropertyAccessor implements BeanFactoryAware {
 
-    private final Object target;
+    private Object target;
     private final FluentStyle fluentStyle;
     private final String fluentMethodPrefix;
+    private final String buildMethod;
 
     // this is a multimap to handle overloaded methods
     private final ListMultimap<String, Method> properties = ArrayListMultimap.create();
@@ -42,11 +43,15 @@ public class FluentBeanWrapper extends AbstractPropertyAccessor implements BeanF
 
     private BeanFactory beanFactory;
 
-    public FluentBeanWrapper(final Object target, final String fluentMethodPrefix, final FluentStyle fluentStyle) {
+    public FluentBeanWrapper(final Object target,
+                             final String fluentMethodPrefix,
+                             final String buildMethod,
+                             final FluentStyle fluentStyle) {
         Assert.notNull(target, "Target object must not be null");
         this.target = target;
         this.fluentStyle = fluentStyle;
         this.fluentMethodPrefix = fluentMethodPrefix;
+        this.buildMethod = buildMethod;
         this.typeConverterDelegate = new TypeConverterDelegate(this, target);
         registerDefaultEditors();
 
@@ -137,7 +142,7 @@ public class FluentBeanWrapper extends AbstractPropertyAccessor implements BeanF
         try {
             Object convertedValue = this.typeConverterDelegate.convertIfNecessary(propertyName, null, newValue,
                     paramType, new TypeDescriptor(new MethodParameter(method, 0)));
-            method.invoke(this.target, convertedValue);
+            this.target = method.invoke(this.target, convertedValue);
         }
         catch (ConverterNotFoundException ex) {
             PropertyChangeEvent pce = new PropertyChangeEvent(this.target, propertyName, null, newValue);
@@ -157,6 +162,10 @@ public class FluentBeanWrapper extends AbstractPropertyAccessor implements BeanF
         catch (InvocationTargetException ex) {
             throw new InvalidPropertyException(this.target.getClass(), propertyName, "Fluent method threw an exception", ex);
         }
+    }
+
+    public Object build() throws Exception {
+        return BeanUtils.findMethod(target.getClass(), buildMethod).invoke(target);
     }
 
     private Method getFluentMethod(String propertyName, Class<?> type) {

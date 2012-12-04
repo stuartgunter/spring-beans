@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sg="http://www.stuartgunter.org/schema/spring"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.stuartgunter.org/schema/spring http://www.stuartgunter.org/schema/spring/spring.xsd">
+
+    <!--
+        This is here to test immutable fluent bean creation. Joda Time returns a new DateTime instance with every
+        invocation of the withXXX() methods.
+    -->
+    <sg:builder-factory id="testBean"
+                        builder-class="org.joda.time.DateTime"
+                        build-method="toDateTime">
+        <sg:with name="year" value="2012"/>
+        <sg:with name="monthOfYear" value="12"/>
+        <sg:with name="dayOfMonth" value="1"/>
+        <sg:with name="hourOfDay" value="6"/>
+        <sg:with name="minuteOfHour" value="0"/>
+        <sg:with name="secondOfMinute" value="0"/>
+        <sg:with name="millisOfSecond" value="0"/>
+    </sg:builder-factory>
+</beans>

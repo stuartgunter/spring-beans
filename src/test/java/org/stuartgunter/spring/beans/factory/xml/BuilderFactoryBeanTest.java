@@ -1,5 +1,6 @@
 package org.stuartgunter.spring.beans.factory.xml;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.parsing.BeanDefinitionParsingException;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -58,6 +59,22 @@ public class BuilderFactoryBeanTest {
 
         assertNotNull(bean);
         assertEquals("Hello World!", bean);
+    }
+
+    public void shouldCreateImmutableBeanUsingFluentMethods() {
+        loadBeanDefinitions("immutable-bean-factory.xml");
+
+        final DateTime bean = applicationContext.getBean("testBean", DateTime.class);
+        final DateTime expected = new DateTime()
+                .withYear(2012)
+                .withMonthOfYear(12)
+                .withDayOfMonth(1)
+                .withHourOfDay(6)
+                .withMinuteOfHour(0)
+                .withSecondOfMinute(0)
+                .withMillisOfSecond(0);
+
+        assertEquals(expected, bean);
     }
 
     @Test(expectedExceptions = BeanDefinitionParsingException.class)

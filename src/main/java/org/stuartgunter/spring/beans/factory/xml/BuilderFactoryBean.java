@@ -77,7 +77,7 @@ public class BuilderFactoryBean extends AbstractFactoryBean {
     @Override
     protected Object createInstance() throws Exception {
         Object builder = BeanUtils.instantiate(builderClass);
-        FluentBeanWrapper fluentBeanWrapper = new FluentBeanWrapper(builder, methodPrefix, fluentStyle);
+        FluentBeanWrapper fluentBeanWrapper = new FluentBeanWrapper(builder, methodPrefix, buildMethod, fluentStyle);
         fluentBeanWrapper.setBeanFactory(getBeanFactory());
 
         for (Map.Entry<String, List<Object>> builderProperty : builderProperties.entrySet()) {
@@ -87,7 +87,7 @@ public class BuilderFactoryBean extends AbstractFactoryBean {
             }
         }
 
-        return BeanUtils.findMethod(builderClass, buildMethod).invoke(builder);
+        return fluentBeanWrapper.build();
     }
 
     private Class<?> findBuildMethodReturnType() {
