@@ -48,6 +48,10 @@ public class FluentBeanWrapper extends AbstractPropertyAccessor implements BeanF
                              final String buildMethod,
                              final FluentStyle fluentStyle) {
         Assert.notNull(target, "Target object must not be null");
+        Assert.notNull(fluentMethodPrefix, "Fluent method prefix must not be null");
+        Assert.notNull(buildMethod, "Build method must not be null");
+        Assert.notNull(fluentStyle, "Fluent style must not be null");
+
         this.target = target;
         this.fluentStyle = fluentStyle;
         this.fluentMethodPrefix = fluentMethodPrefix;
