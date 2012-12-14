@@ -91,11 +91,15 @@ public class BuilderFactoryBean extends AbstractFactoryBean {
     }
 
     private Class<?> findBuildMethodReturnType() {
-        Method method = BeanUtils.findDeclaredMethod(builderClass, buildMethod, null);
-        if (method == null) {
-            throw new RuntimeException("Build method '" + buildMethod + "' could not be found");
-        } else {
-            return method.getReturnType();
+        if (builderClass == null || buildMethod == null) {
+            return null;
+        }
+
+        try {
+            Method method = BeanUtils.findDeclaredMethod(builderClass, buildMethod, null);
+            return (method == null) ? null : method.getReturnType();
+        } catch (Exception ex) {
+            return null;
         }
     }
 }
