@@ -9,7 +9,7 @@
 
     <groupId>org.stuartgunter</groupId>
     <artifactId>spring-beans</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <inceptionYear>2012</inceptionYear>
@@ -43,7 +43,7 @@
         <url>https://github.com/stuartgunter/spring-beans</url>
         <connection>scm:git:git@github.com:stuartgunter/spring-beans.git</connection>
         <developerConnection>scm:git:git@github.com:stuartgunter/spring-beans.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>spring-beans-1.0.1</tag>
     </scm>
 
     <issueManagement>
